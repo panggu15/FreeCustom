@@ -117,13 +117,13 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
                 if ref_masks is not None and mras is not None:
-                    if i < 20:
+                    if i < 15:
                         mras.ref_masks = [ref_masks[0]]
                     else:
                         mras.ref_masks = [ref_masks[1]]
                 # FreeCustom
                 latent_own, latents_ref = latents[:1], latents[1:]
-                if i < 20:
+                if i < 15:
                     latents_ref = latents[1:2]
                     embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[3:4], prompt_embeds[4:5]], dim=0)
                 else:
