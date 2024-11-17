@@ -125,12 +125,15 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
                 latent_own, latents_ref = latents[:1], latents[1:]
                 if i < 25:
                     latents_ref = latents[1:2]
-                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[2:3]], dim=0)
+                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[3:4], prompt_embeds[4:5]], dim=0)
+                    print('sssss', latents_ref.shape)
                 else:
                     latents_ref = latents[2:]
-                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[3:]], dim=0)
+                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[3:4], prompt_embeds[5:]], dim=0)
                 noise = randn_tensor(latents_ref_z_0.shape, generator=generator, device=device, dtype=latents_ref_z_0.dtype)
+                print(latents_ref.shape)
                 latents_ref = self.scheduler.add_noise(latents_ref_z_0, noise, t.reshape(1,),)
+                print('noise', latents_ref.shape)
                 latents = torch.cat([latent_own, latents_ref], dim=0)
                 print(latents.shape, latent_own.shape, latents_ref.shape)
                 # expand the latents if we are doing classifier free guidance
