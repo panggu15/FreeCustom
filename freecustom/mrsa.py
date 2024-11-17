@@ -60,6 +60,7 @@ class MultiReferenceSelfAttention():
         if kwargs.get("attn_batch_type") == 'mrsa':
             sim_own, sim_refs = sim[..., :H*W], sim[..., H*W:]
             sim_or = [sim_own]
+            print(len(self.ref_masks))
             for i, (ref_mask, mask_weight) in enumerate(zip(self.ref_masks, self.mask_weights)):
                 ref_mask = self.get_ref_mask(ref_mask, mask_weight, H, W)
                 sim_ref = sim_refs[..., H*W*i: H*W*(i+1)]
