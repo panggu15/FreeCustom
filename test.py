@@ -91,7 +91,7 @@ if __name__ == "__main__":
                                 start_step     = cfg.start_step,
                                 end_step       = cfg.end_step,
                                 layer_idx      = cfg.layer_idx, 
-                                ref_masks      = ref_masks,
+                                ref_masks      = ref_masks[:1],
                                 mask_weights   = cfg.mask_weights,
                                 style_fidelity = cfg.style_fidelity,
                                 viz_cfg        = viz_cfg)
