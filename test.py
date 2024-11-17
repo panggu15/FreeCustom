@@ -10,7 +10,7 @@ from diffusers import DDIMScheduler
 
 from utils.utils import load_image, load_mask
 from pipelines.pipeline_stable_diffusion_freecustom import StableDiffusionFreeCustomPipeline
-from freecustom.mrsa2 import MultiReferenceSelfAttention
+from freecustom.mrsa import MultiReferenceSelfAttention
 from freecustom.hack_attention import hack_self_attention_to_mrsa
 
 if __name__ == "__main__":
