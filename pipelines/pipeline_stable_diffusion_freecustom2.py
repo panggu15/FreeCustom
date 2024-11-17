@@ -132,7 +132,7 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
                 noise = randn_tensor(latents_ref_z_0.shape, generator=generator, device=device, dtype=latents_ref_z_0.dtype)
                 latents_ref = self.scheduler.add_noise(latents_ref_z_0, noise, t.reshape(1,),)
                 latents = torch.cat([latent_own, latents_ref], dim=0)
-                
+                print(latents.shape, latent_own.shape, latents_ref.shape)
                 # expand the latents if we are doing classifier free guidance
                 latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
                 latent_model_input = self.scheduler.scale_model_input(latent_model_input, t)
