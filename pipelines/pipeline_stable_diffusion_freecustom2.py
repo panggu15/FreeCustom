@@ -64,7 +64,7 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
         if prompt is not None and isinstance(prompt, str):
             batch_size = 1
         elif prompt is not None and isinstance(prompt, list):
-            batch_size = len(prompt)
+            batch_size = 2
         else:
             batch_size = prompt_embeds.shape[0]
 
