@@ -125,8 +125,10 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
                 latent_own, latents_ref = latents[:1], latents[1:]
                 if i < 25:
                     latents_ref = latents[1:2]
+                    embeds_text = torch.cat([prompt_embeds[0], prompt_embeds[1], prompt_embeds[2]])
                 else:
                     latents_ref = latents[2:]
+                    embeds_text = torch.cat([prompt_embeds[0], prompt_embeds[1], prompt_embeds[3]])
                 noise = randn_tensor(latents_ref_z_0.shape, generator=generator, device=device, dtype=latents_ref_z_0.dtype)
                 latents_ref = self.scheduler.add_noise(latents_ref_z_0, noise, t.reshape(1,),)
                 latents = torch.cat([latent_own, latents_ref], dim=0)
@@ -139,7 +141,7 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
                 noise_pred = self.unet(
                     latent_model_input,
                     t,
-                    encoder_hidden_states=prompt_embeds,
+                    encoder_hidden_states=embeds_text,
                     cross_attention_kwargs=cross_attention_kwargs,
                     return_dict=False,
                 )[0]
