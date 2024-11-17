@@ -61,7 +61,7 @@ if __name__ == "__main__":
         prompts = [target_prompt] + ([""] * (len(ref_prompts))) 
     else:
         prompts = [target_prompt] + ref_prompts
-    negative_prompts = [cfg.negative_prompt] * len(prompts)
+    negative_prompts = [cfg.negative_prompt] * 2
 
     # set dirs
     concepts_name  = ref_image_path.split('/')[3]
