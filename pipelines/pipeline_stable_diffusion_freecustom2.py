@@ -125,10 +125,10 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
                 latent_own, latents_ref = latents[:1], latents[1:]
                 if i < 25:
                     latents_ref = latents[1:2]
-                    embeds_text = torch.cat([prompt_embeds[0], prompt_embeds[1], prompt_embeds[2]], dim=0)
+                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[2:3]], dim=0)
                 else:
                     latents_ref = latents[2:]
-                    embeds_text = torch.cat([prompt_embeds[0], prompt_embeds[1], prompt_embeds[3]], dim=0)
+                    embeds_text = torch.cat([prompt_embeds[:2], prompt_embeds[3:]], dim=0)
                 noise = randn_tensor(latents_ref_z_0.shape, generator=generator, device=device, dtype=latents_ref_z_0.dtype)
                 latents_ref = self.scheduler.add_noise(latents_ref_z_0, noise, t.reshape(1,),)
                 latents = torch.cat([latent_own, latents_ref], dim=0)
