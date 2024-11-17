@@ -45,6 +45,8 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
         callback_steps: int = 1,
         cross_attention_kwargs: Optional[Dict[str, Any]] = None,
         guidance_rescale: float = 0.0,
+        ref_masks=None,
+        mrsa=None,
     ):
         """
         Based on StableDiffusionPipeline with just a few changes, the changes are below the line commented with "FreeCustom"
@@ -114,9 +116,17 @@ class StableDiffusionFreeCustomPipeline(StableDiffusionPipeline):
         num_warmup_steps = len(timesteps) - num_inference_steps * self.scheduler.order
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
-                
+                if ref_masks is not None and mras is not None:
+                    if i < 25:
+                        mras.ref_masks = [ref_masks[0]]
+                    else:
+                        mras.ref_masks = [ref_masks[1]]
                 # FreeCustom
                 latent_own, latents_ref = latents[:1], latents[1:]
+                if i < 25:
+                    latents_ref = latents[1:2]
+                else:
+                    latents_ref = latents[2:]
                 noise = randn_tensor(latents_ref_z_0.shape, generator=generator, device=device, dtype=latents_ref_z_0.dtype)
                 latents_ref = self.scheduler.add_noise(latents_ref_z_0, noise, t.reshape(1,),)
                 latents = torch.cat([latent_own, latents_ref], dim=0)
